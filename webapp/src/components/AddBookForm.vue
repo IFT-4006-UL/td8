@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 max-w-md mx-auto">
     <h1 class="text-2xl font-semibold mb-2">Bibliothèque {{ LIBRARY_NAME }}</h1>
-    <p class="mb-2 text-gray-600" data-cy="book-count">Nombre total de livres : <strong>{{ bookCount }}</strong></p>
+    <p class="mb-2 text-gray-600" >Nombre total de livres : <strong data-cy="book-count">{{ bookCount }}</strong></p>
     <h2 class="text-xl font-bold mb-4">Ajouter un livre</h2>
 
     <form @submit.prevent="submitBook" class="space-y-4">
