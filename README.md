@@ -44,10 +44,15 @@ L'application web sera accessible à l'adresse suivante: [http://localhost:5173]
 
 ## Rouler les tests
 
-Pour rouler tous les tests autres que Cypress, exécuter la commande suivante:
+Pour rouler tous les tests du backend, exécuter la commande suivante:
 
 ```bash
 mvn test
+```
+
+Pour rouler tous les tests unitaires de l'interface, exécuter la commande suivante:
+```bash
+npm run test:unit
 ```
 
 Pour rouler les tests bout en bout avec Cypress, exécuter la commande suivante:
