@@ -4,15 +4,15 @@
 
 * Java JDK (au minimum la version 18)
 * [Maven 3](https://maven.apache.org/download.cgi)
-* Node.js (au minimum la version 18.3) et npm (au minimum la version 10) pour l'interface utilisateur du TP4 (le téléchargement de Node.js inclut npm)
+* Node.js (au minimum la version 18.3) et npm (au minimum la version 10) (le téléchargement de Node.js inclut npm)
 
 ## Démarrer le projet
 
-### Démarrer le serveur backend
-Démarrer le serveur backend en exécutant `Main`.
+### 1. Démarrer le serveur backend
 
-Vous pouvez aussi démarrer le serveur via maven:
+**Option A** — Depuis IntelliJ: exécutez la classe `Main`.
 
+**Option B** — Depuis le terminal:
 ```bash
 mvn clean install
 mvn exec:java
@@ -21,22 +21,14 @@ mvn exec:java
 Le serveur sera accessible à l'adresse suivante: [http://localhost:8181](http://localhost:8181).
 Vous pouvez valider que le serveur est démarré avec [http://localhost:8181/health](http://localhost:8181/health).
 
-### Démarrer le serveur frontend
+### 2. Démarrer le serveur frontend
 
-Pour démarrer le serveur frontend, exécutez les commandes suivantes:
-
-1. Déplacez-vous dans le dossier `webapp`:
 ```bash
+# Déplacez-vous dans le dossier `webapp`
 cd webapp
-```
-
-2. Installez les dépendances:
-```bash
+# Installez les dépendances
 npm install
-```
-
-3. Démarrez le serveur:
-```bash
+# Démarrez le serveur
 npm run dev
 ```
 
@@ -44,31 +36,73 @@ L'application web sera accessible à l'adresse suivante: [http://localhost:5173]
 
 ## Rouler les tests
 
-Pour rouler tous les tests du backend, exécuter la commande suivante:
+### Tests backend (Java)
+
+Pour rouler tous les tests du backend, on exécute normalement la commande suivante:
 
 ```bash
 mvn test
 ```
 
-Pour rouler tous les tests unitaires de l'interface, exécuter la commande suivante:
+### Tests unitaires frontend (Vitest)
+
+Pour rouler tous les tests unitaires de l'interface avec `Vitest`, exécutez la commande suivante:
+
 ```bash
+cd webapp
 npm run test:unit
 ```
 
-Pour rouler les tests bout en bout avec Cypress, exécuter la commande suivante:
+### Tests bout en bout (Cypress)
 
-Avec Windows:
+Les tests Cypress nécessitent que le backend démarré en mode test (avec des bases de données en mémoire).
+
+**Méthode 1 — Deux terminaux:**
+
+Terminal 1 — démarrer le backend en mode test:
 ```bash
-./run-e2e.sh
+mvn exec:java "-Dexec.args=TEST"
 ```
-Ou avec Linux:
+
+Terminal 2 — builder le frontend et lancer Cypress (dans le dossier `webapp`):
 ```bash
-source run-e2e.sh
+cd webapp
+npm run build
+npm run test:e2e
 ```
 
-Ce script démarre le serveur backend avec les bases de données en mémoire, puis démarre le serveur frontend et finalement exécute les tests Cypress.
+**Méthode 2 — Script bash (Git Bash requis sur Windows):**
 
-Une fenêtre de navigateur s'ouvrira pour exécuter les tests.
+**Important (Windows):** `java` et `mvn` doivent être accessibles depuis le terminal (dans le PATH système).
+IntelliJ inclut ses propres copies de Java et Maven, mais celles-ci ne sont pas accessibles depuis le terminal par défaut.
+Voir la section [Configuration du PATH sur Windows](#configuration-du-path-sur-windows) si ces commandes ne sont pas reconnues.
+
+```bash
+bash run-e2e.sh
+```
+
+Ce script automatise la méthode 1: il démarre le backend en mode test, attend qu'il soit prêt, lance les tests Cypress, puis arrête le backend.
+
+**Note:**
+Si vous relancez les tests sans redémarrer le backend, vous pourriez obtenir des erreurs `BOOK_ALREADY_PRESENT`.
+Arrêtez le backend (`Ctrl+C`) et relancez-le avant de réexécuter les tests.
+
+## Configuration du PATH sur Windows
+
+Si `java` ou `mvn` ne sont pas reconnus dans votre terminal, vous pouvez utiliser les versions incluses dans IntelliJ.
+
+**Trouver le chemin du JDK:** Dans IntelliJ, allez dans File > Project Structure > SDKs et notez le chemin (ex: `C:\Users\VOTRE_USER\.jdks\ms-21.0.8`).
+
+**Trouver le chemin de Maven:** Cherchez `mvn.cmd` dans votre installation IntelliJ (ex: `C:\Program Files\JetBrains\IntelliJ IDEA 2026.1\plugins\maven\lib\maven3\bin`).
+
+**Ajouter au PATH (PowerShell en administrateur):**
+```powershell
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Users\VOTRE_USER\.jdks\ms-21.0.8", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Users\VOTRE_USER\.jdks\ms-21.0.8\bin", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\JetBrains\IntelliJ IDEA 2026.1\plugins\maven\lib\maven3\bin", "User")
+```
+
+Fermez et réouvrez votre terminal, puis vérifiez avec `java -version` et `mvn --version`.
 
 ## Exercices
 

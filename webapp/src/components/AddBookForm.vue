@@ -63,6 +63,8 @@ const submitBook = async () => {
 }
 
 onMounted(fetchBookCount)
+
+defineExpose({ submitBook })
 </script>
 
 <style scoped>
