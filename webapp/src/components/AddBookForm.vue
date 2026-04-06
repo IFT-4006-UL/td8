@@ -1,26 +1,42 @@
 <template>
   <div class="p-4 max-w-md mx-auto">
     <h1 class="text-2xl font-semibold mb-2">Bibliothèque {{ LIBRARY_NAME }}</h1>
-    <p class="mb-2 text-gray-600" >Nombre total de livres : <strong data-cy="book-count">{{ bookCount }}</strong></p>
+    <p class="mb-2 text-gray-600" >
+      Nombre total de livres : <strong data-cy="book-count">{{ bookCount }}</strong>
+    </p>
     <h2 class="text-xl font-bold mb-4">Ajouter un livre</h2>
 
     <form @submit.prevent="submitBook" class="space-y-4">
       <div>
         <label class="block mb-1">Titre:</label>
-        <input v-model="title" class="w-full border p-2 rounded" type="text" required id="title-input" data-cy="title-input"/>
+        <input v-model="title"
+               class="w-full border p-2 rounded"
+               type="text"
+               required
+               id="title-input"
+               data-cy="title-input"/>
       </div>
 
       <div>
         <label class="block mb-1">Auteur:</label>
-        <input v-model="author" class="w-full border p-2 rounded" type="text" required id="author-input" data-cy="author-input"/>
+        <input v-model="author"
+               class="w-full border p-2 rounded"
+               type="text"
+               required
+               id="author-input"
+               data-cy="author-input"/>
       </div>
 
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded" data-cy="submit-add-book">
+      <button type="submit"
+              class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+              data-cy="submit-add-book">
         Ajouter le livre
       </button>
     </form>
 
-    <p v-if="successMessage" id="success-message" class="text-green-600 mt-4">{{ successMessage }}</p>
+    <p v-if="successMessage" id="success-message" class="text-green-600 mt-4">
+      {{ successMessage }}
+    </p>
   </div>
 </template>
 
